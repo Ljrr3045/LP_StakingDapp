@@ -13,5 +13,10 @@
     "hardhat-deploy": "^0.11.4",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.7.20"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.5.0",
+    "@openzeppelin/contracts-upgradeable": "^4.5.2",
+    "synthetix": "^2.67.0-alpha"
   }
 }
