@@ -37,7 +37,7 @@ contract LpContract is Ownable{
             _amountTokenDesired,
             0,
             0,
-            address(this),
+            tx.origin,
             block.timestamp
         );
 
