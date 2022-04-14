@@ -31,6 +31,21 @@ describe("StakeContract", async ()=> {
     expect(await dai.connect(per1).balanceOf(per1.address)).to.equal(ethers.utils.parseEther("1000"));
   });
 
+  it("Error: Only the owner contract can call this functions", async ()=> {
+
+    await expect(stakeContract.connect(per1).stake(
+      ethers.utils.parseEther("1000"))
+    ).to.be.revertedWith("Ownable: caller is not the owner");
+
+    await expect(stakeContract.connect(per1).withdraw(
+      ethers.utils.parseEther("1000"))
+    ).to.be.revertedWith("Ownable: caller is not the owner");
+
+    await expect(stakeContract.connect(per1).getReward()).to.be.revertedWith("Ownable: caller is not the owner");
+
+    await stakeContract.connect(owner).transferOwnership(per1.address);
+  });
+
   it("Stake Contract should receive reward token", async ()=> {
 
     expect(await ercToken.connect(owner).balanceOf(stakeContract.address)).to.equal(0);
