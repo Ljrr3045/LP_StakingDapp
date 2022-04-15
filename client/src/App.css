@@ -1,0 +1,38 @@
+.father {
+    height: 97vh;
+    width: 98vw;
+    
+}
+
+.connect-button {
+    display: grid;
+    width: 98vw;
+    justify-content: flex-end;
+}
+
+.grid {
+    position: absolute;
+    display: grid;
+    grid-template-columns: auto auto;
+    top: 60%;
+    justify-content: space-around;
+    width: 98vw;
+}
+
+.input-father {
+    position: absolute;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    width: 98vw;
+    height: 90vh;
+}
+
+.input {
+    width: 50vw;
+}
+
+.Button {
+  color: black;
+}
+
