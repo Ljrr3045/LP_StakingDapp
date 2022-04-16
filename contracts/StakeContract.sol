@@ -40,6 +40,7 @@ contract StakeContract is Initializable {
     }
 
     function _withdraw(uint _amount) internal updateReward(msg.sender){
+        require(_balances[msg.sender] >=_amount);
         _totalSupply -= _amount;
         _balances[msg.sender] -= _amount;
         stakingToken.transfer(msg.sender, _amount);
@@ -48,6 +49,7 @@ contract StakeContract is Initializable {
     function _getReward() internal updateReward(msg.sender){
         uint reward = rewards[msg.sender];
         rewards[msg.sender] = 0;
+        require(reward != 0);
         rewardsToken.transfer(msg.sender, reward);
     }
 

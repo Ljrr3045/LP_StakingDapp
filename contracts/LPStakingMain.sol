@@ -12,13 +12,14 @@ import "./interfaces/IUniswapV2ERC20.sol";
 
 contract LPStakingMain is AccessControlUpgradeable, LpContract, StakeContract {
     // VARIABLEs
-
-    IUniswapV2ERC20 ETHDAIpool;
-
-    bytes32 private DOMAIN_SEPARATOR;
+    IUniswapV2ERC20 ETHDAIpool; // UNISWAP ETHDAIpool
+    bytes32 private DOMAIN_SEPARATOR; //ERC712 UNISWAP separator
 
     // FUNCTIONS
-
+    /**
+     @param _stakingToken address of the staking token
+     @param _rewardsToken address of the rewards token
+     */
     function initialize(address _stakingToken, address _rewardsToken)
         external
         initializer
@@ -68,9 +69,23 @@ contract LPStakingMain is AccessControlUpgradeable, LpContract, StakeContract {
         address signer = ecrecover(hash, v, r, s);
         require(signer == msg.sender, "Invalid signature");
         require(signer != address(0), "Ivalid signature");
-        ETHDAIpool.permit(msg.sender, address(this), msg.value, deadline, v, r, s);
+        ETHDAIpool.permit(
+            msg.sender,
+            address(this),
+            msg.value,
+            deadline,
+            v,
+            r,
+            s
+        );
         _stake(msg.value);
     }
 
-    function withdrawPoolLiquidity() external {}
+    /**
+    @param _amount Amount of tokens to withdraw 
+    */
+    function withdrawPoolLiquidity(uint256 _amount) external {
+        _withdraw(_amount);
+        _getReward();
+    }
 }
