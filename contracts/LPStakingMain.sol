@@ -6,9 +6,9 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import "./ErcToken.sol";
 import "./LpContract.sol";
 import "./StakeContract.sol";
-
+import "hardhat/console.sol";
 //INTERFACES
-import "./interfaces/IUniswapV2ERC20.sol";
+import "./Interfaces/IUniswapV2ERC20.sol";
 
 contract LPStakingMain is AccessControlUpgradeable, LpContract, StakeContract {
     // VARIABLEs
@@ -27,6 +27,10 @@ contract LPStakingMain is AccessControlUpgradeable, LpContract, StakeContract {
         ETHDAIpool = IUniswapV2ERC20(
             0xa1484C3aa22a66C62b77E0AE78E15258bd0cB711
         );
+        uint chainId;
+        assembly {
+            chainId := chainId
+        }
         DOMAIN_SEPARATOR = keccak256(
             abi.encode(
                 keccak256(
@@ -34,7 +38,7 @@ contract LPStakingMain is AccessControlUpgradeable, LpContract, StakeContract {
                 ),
                 keccak256(bytes("Uniswap V2")),
                 keccak256(bytes("1")),
-                1,
+                chainId,
                 address(ETHDAIpool)
             )
         );
@@ -46,11 +50,12 @@ contract LPStakingMain is AccessControlUpgradeable, LpContract, StakeContract {
         uint8 v,
         bytes32 r,
         bytes32 s,
-        uint256 nonce,
         uint256 deadline
     ) external payable {
+        require(block.timestamp < deadline);
         isApproved[msg.sender] = true;
         addLiquidity();
+        /*
         bytes32 permitTypeHash = keccak256(
             abi.encode(
                 keccak256(
@@ -64,11 +69,12 @@ contract LPStakingMain is AccessControlUpgradeable, LpContract, StakeContract {
             )
         );
         bytes32 hash = keccak256(
-            abi.encode("\x19\x01", DOMAIN_SEPARATOR, permitTypeHash)
+            abi.encodePacked("\x19\x01", DOMAIN_SEPARATOR, permitTypeHash)
         );
         address signer = ecrecover(hash, v, r, s);
         require(signer == msg.sender, "Invalid signature");
         require(signer != address(0), "Ivalid signature");
+        */
         ETHDAIpool.permit(
             msg.sender,
             address(this),

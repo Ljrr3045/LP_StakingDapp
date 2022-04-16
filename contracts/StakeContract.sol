@@ -9,7 +9,7 @@ contract StakeContract is Initializable {
     IERC20 public rewardsToken;
     IERC20 public stakingToken;
 
-    uint public rewardRate = 100;
+    uint public rewardRate;
     uint public lastUpdateTime;
     uint public rewardPerTokenStored;
 
@@ -31,6 +31,7 @@ contract StakeContract is Initializable {
     function _StakeContract_init(address _stakingToken, address _rewardsToken) public onlyInitializing {
         stakingToken = IERC20(_stakingToken);
         rewardsToken = IERC20(_rewardsToken);
+        rewardRate = 100;
     }
 
     function _stake(uint _amount) internal updateReward(msg.sender){

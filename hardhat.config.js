@@ -6,6 +6,8 @@ require("hardhat-gas-reporter");
 require("solidity-coverage");
 require('hardhat-deploy');
 require("dotenv").config();
+require("@nomiclabs/hardhat-web3");
+
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
