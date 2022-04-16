@@ -2,9 +2,9 @@
 pragma solidity >=0.8.0<0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract StakeContract is Ownable{
+contract StakeContract is Initializable {
     
     IERC20 public rewardsToken;
     IERC20 public stakingToken;
@@ -28,24 +28,24 @@ contract StakeContract is Ownable{
         _;
     }
 
-    constructor(address _stakingToken, address _rewardsToken) {
+    function _StakeContract_init(address _stakingToken, address _rewardsToken) public onlyInitializing {
         stakingToken = IERC20(_stakingToken);
         rewardsToken = IERC20(_rewardsToken);
     }
 
-    function stake(uint _amount) external updateReward(msg.sender) onlyOwner(){
+    function _stake(uint _amount) internal updateReward(msg.sender){
         _totalSupply += _amount;
         _balances[msg.sender] += _amount;
         stakingToken.transferFrom(msg.sender, address(this), _amount);
     }
 
-    function withdraw(uint _amount) external updateReward(msg.sender) onlyOwner(){
+    function _withdraw(uint _amount) internal updateReward(msg.sender){
         _totalSupply -= _amount;
         _balances[msg.sender] -= _amount;
         stakingToken.transfer(msg.sender, _amount);
     }
 
-    function getReward() external updateReward(msg.sender) onlyOwner(){
+    function _getReward() internal updateReward(msg.sender){
         uint reward = rewards[msg.sender];
         rewards[msg.sender] = 0;
         rewardsToken.transfer(msg.sender, reward);

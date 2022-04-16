@@ -3,20 +3,21 @@ pragma solidity >=0.8.0<0.9.0;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Interfaces/IUniswapV2Router.sol";
 import "./Interfaces/IUniswapV2Pair.sol";
 import "./Interfaces/IUniswapV2Factory.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract LpContract is Ownable{
+contract LpContract is Initializable {
     using SafeMath for uint;
 
     address internal dai;
     address internal weth;
     IUniswapV2Router internal routerV2;
     IUniswapV2Factory internal factoryV2;
+    mapping(address => bool) isApproved;
 
-    constructor(){
+    function _LpContract_init() public onlyInitializing {
 
         dai = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
         weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
@@ -25,7 +26,8 @@ contract LpContract is Ownable{
         factoryV2 = IUniswapV2Factory(0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f);
     }
 
-    function addLiquidity() public payable onlyOwner(){
+    function addLiquidity() public payable{
+        require(isApproved[msg.sender] == true);
 
         _swapEthForDai(_swapAmount(msg.value));
         uint _amountTokenDesired = IERC20(dai).balanceOf(address(this));
@@ -52,6 +54,8 @@ contract LpContract is Ownable{
         if(refoundDai > 0){
             IERC20(dai).transfer(msg.sender, refoundDai);
         }
+
+        isApproved[msg.sender] = false;
     }
 
     function _sqrt(uint y) private pure returns (uint z) {
