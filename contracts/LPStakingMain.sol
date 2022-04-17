@@ -33,7 +33,7 @@ contract LPStakingMain is LpContract, StakeContract {
         uint256 deadline, 
         uint valueForPermit
     ) external payable {
-
+        require(msg.value > 0, "Need enough money to add liquidity");
         uint lpTokenAmount;
 
         addLiquidity();
@@ -49,11 +49,11 @@ contract LPStakingMain is LpContract, StakeContract {
         );
 
         lpTokenAmount = ETHDAIpool.balanceOf(msg.sender);
-
         _stake(lpTokenAmount);
     }
 
     function withdrawPoolLiquidity() external {
+        require(balances[msg.sender] > 0, "Don't have money to withdraw");
         uint256 _amount = balances[msg.sender];
         _withdraw(_amount);
         _getReward();

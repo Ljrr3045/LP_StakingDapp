@@ -32,42 +32,89 @@ describe("LpStakingMain", async ()=> {
         await ercToken.connect(owner).mint(lpStakingMain.address, ethers.utils.parseEther("100000"));
     });
 
-    it("Error: The contract only needs to be started once", async ()=> {
+    describe("Contract initialization", async ()=> {
 
-        await expect(lpStakingMain.connect(owner).initialize(dai.address, ercToken.address)).to.be.revertedWith("Contract are initialized");
+        it("Error: The contract only needs to be started once", async ()=> {
+
+            await expect(lpStakingMain.connect(owner).initialize(dai.address, ercToken.address)).to.be.revertedWith("Contract are initialized");
+        });
     });
 
-    it("The user should be able to Add liquidity", async ()=> {
+    describe("Adding liquidity", async ()=> {
 
-        let data = await signERC2612Permit(
-            signerWallet, 
-            lpDai.address, 
-            owner.address, 
-            lpStakingMain.address, 
-            ethers.utils.parseEther("1000")
-        );
+        it("Error: Must add enough money", async ()=> {
 
-        expect(owner.address).to.equal(signerAddress);
+            let data = await signERC2612Permit(
+                signerWallet, 
+                lpDai.address, 
+                owner.address, 
+                lpStakingMain.address, 
+                ethers.utils.parseEther("1000")
+            );
 
-        await lpStakingMain.connect(owner).addPoolLiquidity(
-            data.v,
-            data.r,
-            data.s,
-            data.deadline,
-            ethers.utils.parseEther("1000"),
-            {value: ethers.utils.parseEther("1")}
-        );
+            await expect(lpStakingMain.connect(per1).addPoolLiquidity(
+                data.v,
+                data.r,
+                data.s,
+                data.deadline,
+                ethers.utils.parseEther("1000"),
+                {value: 0}
+            )).to.be.revertedWith("Need enough money to add liquidity");
+        });
 
-        let balanceInStaking = await lpStakingMain.connect(owner).balances(owner.address);
+        it("The user should be able to Add liquidity", async ()=> {
 
-        expect(balanceInStaking).to.equal("33675512165700446094");
-        expect(await ethers.provider.getBalance(lpStakingMain.address)).to.equal(0);
-        expect(await dai.connect(owner).balanceOf(lpStakingMain.address)).to.equal(0);
-        expect(await dai.connect(owner).balanceOf(owner.address)).to.equal(51683);
+            let data = await signERC2612Permit(
+                signerWallet, 
+                lpDai.address, 
+                owner.address, 
+                lpStakingMain.address, 
+                ethers.utils.parseEther("1000")
+            );
+    
+            expect(owner.address).to.equal(signerAddress);
+    
+            await lpStakingMain.connect(owner).addPoolLiquidity(
+                data.v,
+                data.r,
+                data.s,
+                data.deadline,
+                ethers.utils.parseEther("1000"),
+                {value: ethers.utils.parseEther("1")}
+            );
+    
+            let balanceInStaking = await lpStakingMain.connect(owner).balances(owner.address);
+    
+            expect(balanceInStaking).to.equal("33675512165700446094");
+            expect(await ethers.provider.getBalance(lpStakingMain.address)).to.equal(0);
+            expect(await dai.connect(owner).balanceOf(lpStakingMain.address)).to.equal(0);
+            expect(await dai.connect(owner).balanceOf(owner.address)).to.equal(51683);
+        });
     });
 
+    describe("Withdrawal of money", async ()=> {
 
-    it("The user should be able to withdraw from the stake", async ()=> {
+        it("Error: If you don't invest you can't withdraw", async ()=> {
 
-    });
+            await expect(lpStakingMain.connect(per1).withdrawPoolLiquidity()).to.be.revertedWith("Don't have money to withdraw");
+        });
+
+        it("The user should be able to withdraw from the stake", async ()=> {
+
+            await network.provider.send("evm_increaseTime", [604800]);
+            await network.provider.send("evm_mine");
+    
+            expect(await lpDai.connect(owner).balanceOf(owner.address)).to.equal(0);
+            expect(await ercToken.connect(owner).balanceOf(owner.address)).to.equal(0);
+    
+            await lpStakingMain.connect(owner).withdrawPoolLiquidity();
+    
+            expect(await lpDai.connect(owner).balanceOf(owner.address)).to.equal("33675512165700446094");
+        });
+    
+        it("The user must have generated profit on the stake", async ()=> {
+    
+            expect(await ercToken.connect(owner).balanceOf(owner.address)).to.be.above(0);
+        });
+    })
 });
