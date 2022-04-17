@@ -15,8 +15,8 @@ describe("StakeContract", async ()=> {
     ErcToken = await ethers.getContractFactory("ErcToken");
     ercToken = await ErcToken.deploy("HouseToken", "HT");
 
-    StakeContract = await ethers.getContractFactory("StakeContract");
-    stakeContract = await StakeContract.deploy(dai.address, ercToken.address);
+    StakeContract = await ethers.getContractFactory("StakeContractTest");
+    stakeContract = await StakeContract.deploy();
 
     [owner, per1] = await ethers.getSigners();
     perDai = await ethers.getSigner("0x820c79d0b0c90400cdd24d8916f5bd4d6fba4cc3");
@@ -26,24 +26,10 @@ describe("StakeContract", async ()=> {
       ethers.utils.formatBytes32String("5000000000000000000"),
     ]);
 
+    await stakeContract.connect(owner)._StakeContract_init(dai.address, ercToken.address)
+
     await dai.connect(perDai).transfer(per1.address, ethers.utils.parseEther("1000"));
-
     expect(await dai.connect(per1).balanceOf(per1.address)).to.equal(ethers.utils.parseEther("1000"));
-  });
-
-  it("Error: Only the owner contract can call this functions", async ()=> {
-
-    await expect(stakeContract.connect(per1).stake(
-      ethers.utils.parseEther("1000"))
-    ).to.be.revertedWith("Ownable: caller is not the owner");
-
-    await expect(stakeContract.connect(per1).withdraw(
-      ethers.utils.parseEther("1000"))
-    ).to.be.revertedWith("Ownable: caller is not the owner");
-
-    await expect(stakeContract.connect(per1).getReward()).to.be.revertedWith("Ownable: caller is not the owner");
-
-    await stakeContract.connect(owner).transferOwnership(per1.address);
   });
 
   it("Stake Contract should receive reward token", async ()=> {

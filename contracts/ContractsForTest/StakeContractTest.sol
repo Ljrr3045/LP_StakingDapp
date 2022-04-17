@@ -3,7 +3,7 @@ pragma solidity >=0.8.0<0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract StakeContract {
+contract StakeContractTest {
     
     IERC20 public rewardsToken;
     IERC20 public stakingToken;
@@ -27,26 +27,26 @@ contract StakeContract {
         _;
     }
 
-    function _StakeContract_init(address _stakingToken, address _rewardsToken) internal {
+    function _StakeContract_init(address _stakingToken, address _rewardsToken) public {
         stakingToken = IERC20(_stakingToken);
         rewardsToken = IERC20(_rewardsToken);
         rewardRate = 100;
     }
 
-    function _stake(uint _amount) internal updateReward(msg.sender){
+    function stake(uint _amount) public updateReward(msg.sender){
         _totalSupply += _amount;
         _balances[msg.sender] += _amount;
         stakingToken.transferFrom(msg.sender, address(this), _amount);
     }
 
-    function _withdraw(uint _amount) internal updateReward(msg.sender){
+    function withdraw(uint _amount) public updateReward(msg.sender){
         require(_balances[msg.sender] >=_amount);
         _totalSupply -= _amount;
         _balances[msg.sender] -= _amount;
         stakingToken.transfer(msg.sender, _amount);
     }
 
-    function _getReward() internal updateReward(msg.sender){
+    function getReward() public updateReward(msg.sender){
         uint reward = rewards[msg.sender];
         rewards[msg.sender] = 0;
         require(reward != 0);

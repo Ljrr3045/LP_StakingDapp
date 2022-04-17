@@ -3,11 +3,11 @@ pragma solidity >=0.8.0<0.9.0;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./Interfaces/IUniswapV2Router.sol";
-import "./Interfaces/IUniswapV2Pair.sol";
-import "./Interfaces/IUniswapV2Factory.sol";
+import "../Interfaces/IUniswapV2Router.sol";
+import "../Interfaces/IUniswapV2Pair.sol";
+import "../Interfaces/IUniswapV2Factory.sol";
 
-contract LpContract{
+contract LpContractTest{
     using SafeMath for uint;
 
     address internal dai;
@@ -16,7 +16,7 @@ contract LpContract{
     IUniswapV2Factory internal factoryV2;
     mapping(address => bool) isApproved;
 
-    function _LpContract_init() internal {
+    function _LpContract_init() public {
 
         dai = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
         weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
@@ -25,7 +25,7 @@ contract LpContract{
         factoryV2 = IUniswapV2Factory(0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f);
     }
 
-    function addLiquidity() internal{
+    function addLiquidity() public payable{
 
         _swapEthForDai(_swapAmount(msg.value));
         uint _amountTokenDesired = IERC20(dai).balanceOf(address(this));
