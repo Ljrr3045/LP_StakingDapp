@@ -18,10 +18,10 @@ contract LPStakingMain is LpContract, StakeContract {
      @param _stakingToken address of the staking token
      @param _rewardsToken address of the rewards token
      */
-    function initialize(address _stakingToken, address _rewardsToken) public{
+    function initialize(address _stakingToken, address _rewardsToken, NetWork _netWork) public{
         require(init == false, "Contract are initialized");
         ETHDAIpool = IUniswapV2ERC20(0xA478c2975Ab1Ea89e8196811F51A7B7Ade33eB11);
-        _LpContract_init();
+        _LpContract_init(_netWork);
         _StakeContract_init(_stakingToken, _rewardsToken);
         init = true;
     }

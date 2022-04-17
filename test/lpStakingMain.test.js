@@ -21,7 +21,7 @@ describe("LpStakingMain", async ()=> {
 
         const LPStakingMain = await ethers.getContractFactory("LPStakingMain");
         lpStakingMain = await upgrades.deployProxy(LPStakingMain, { initializer: false });
-        await lpStakingMain.connect(owner).initialize(lpDai.address, ercToken.address);
+        await lpStakingMain.connect(owner).initialize(lpDai.address, ercToken.address, 0);
 
         rpcUrl = process.env.MAINNET_URL;
         privateKey = process.env.ADDRESS_PRIVATE_KEY;
@@ -36,7 +36,7 @@ describe("LpStakingMain", async ()=> {
 
         it("Error: The contract only needs to be started once", async ()=> {
 
-            await expect(lpStakingMain.connect(owner).initialize(dai.address, ercToken.address)).to.be.revertedWith("Contract are initialized");
+            await expect(lpStakingMain.connect(owner).initialize(dai.address, ercToken.address, 0)).to.be.revertedWith("Contract are initialized");
         });
     });
 

@@ -14,12 +14,20 @@ contract LpContract{
     address internal weth;
     IUniswapV2Router internal routerV2;
     IUniswapV2Factory internal factoryV2;
-    mapping(address => bool) isApproved;
 
-    function _LpContract_init() internal {
+    enum NetWork {Maint, Rinkeby}
 
-        dai = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
-        weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+    function _LpContract_init(NetWork _netWork) internal {
+
+        if(_netWork == NetWork.Maint){
+
+            dai = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
+            weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+        }else{
+
+            dai = 0x2e055eEe18284513B993dB7568A592679aB13188;
+            weth = 0xc778417E063141139Fce010982780140Aa0cD5Ab;
+        }
 
         routerV2 = IUniswapV2Router(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);
         factoryV2 = IUniswapV2Factory(0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f);
