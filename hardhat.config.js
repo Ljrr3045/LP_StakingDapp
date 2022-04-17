@@ -9,6 +9,7 @@ require("dotenv").config();
 require("@ethersproject/providers");
 require("@nomiclabs/hardhat-web3");
 require('eth-permit');
+require('@openzeppelin/test-environment');
 
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {

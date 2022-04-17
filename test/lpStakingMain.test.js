@@ -28,17 +28,42 @@ describe("LpStakingMain", async ()=> {
         rpcProvider = new ethers.providers.JsonRpcProvider(rpcUrl);
         signerWallet = new ethers.Wallet(privateKey, rpcProvider);
         signerAddress = await signerWallet.getAddress();
+
+        await network.provider.send("hardhat_setBalance", [
+            signerWallet.address,
+            ethers.utils.formatBytes32String("10000000000000000000000000"),
+        ]);
     });
 
+    it("Error: The contract only needs to be started once", async ()=> {
 
+        await expect(lpStakingMain.connect(owner).initialize(dai.address, ercToken.address)).to.be.revertedWith("Contract are initialized");
+    });
 
-    it("prueba", async ()=> {
+    it("The user should be able to Add liquidity", async ()=> {
 
-        let allowanceParameters = await signERC2612Permit(signerWallet, lpDai.address, signerAddress, lpStakingMain.address, "100000000000000000000000000");
+        let data = await signERC2612Permit(
+            signerWallet, 
+            lpDai.address, 
+            owner.address, 
+            lpStakingMain.address, 
+            ethers.utils.parseEther("1000")
+        );
 
-        await lpDai.connect(owner).permit(signerAddress, lpStakingMain.address, "100000000000000000000000000", allowanceParameters.deadline, allowanceParameters.v, allowanceParameters.r, allowanceParameters.s);
+        expect(owner.address).to.equal(signerAddress);
 
-        expect(await lpDai.connect(owner).allowance(signerAddress, lpStakingMain.address)).to.equal("100000000000000000000000000");
+        await lpStakingMain.connect(owner).addPoolLiquidity(
+            data.v,
+            data.r,
+            data.s,
+            data.deadline,
+            ethers.utils.parseEther("1000"),
+            {value: ethers.utils.parseEther("1")}
+        );
+
+        // await lpDai.connect(per1).permit(owner.address, lpStakingMain.address, ethers.utils.parseEther("1000"), data.deadline, data.v, data.r, data.s);
+
+        expect(await lpDai.connect(owner).allowance(owner.address, lpStakingMain.address)).to.equal(ethers.utils.parseEther("1000"));
     });
 
 });
