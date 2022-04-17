@@ -16,7 +16,7 @@ contract StakeContract {
     mapping(address => uint) public rewards;
 
     uint private _totalSupply;
-    mapping(address => uint) public _balances;
+    mapping(address => uint) public balances;
 
     modifier updateReward(address account) {
         rewardPerTokenStored = _rewardPerToken();
@@ -35,14 +35,14 @@ contract StakeContract {
 
     function _stake(uint _amount) internal updateReward(msg.sender){
         _totalSupply += _amount;
-        _balances[msg.sender] += _amount;
+        balances[msg.sender] += _amount;
         stakingToken.transferFrom(msg.sender, address(this), _amount);
     }
 
     function _withdraw(uint _amount) internal updateReward(msg.sender){
-        require(_balances[msg.sender] >=_amount);
+        require(balances[msg.sender] >=_amount);
         _totalSupply -= _amount;
-        _balances[msg.sender] -= _amount;
+        balances[msg.sender] -= _amount;
         stakingToken.transfer(msg.sender, _amount);
     }
 
@@ -64,7 +64,7 @@ contract StakeContract {
 
     function _earned(address account) internal view returns (uint) {
         return
-            ((_balances[account] *
+            ((balances[account] *
                 (_rewardPerToken() - userRewardPerTokenPaid[account])) / 1e18) +
             rewards[account];
     }

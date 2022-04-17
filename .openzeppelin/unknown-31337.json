@@ -2,7 +2,7 @@
   "manifestVersion": "3.2",
   "admin": {
     "address": "0x5D42EBdBBa61412295D7b0302d6F50aC449Ddb4F",
-    "txHash": "0x323c25d23427ac8e5b98606f203c44da1687b76d00d71744bac798d4876b5027"
+    "txHash": "0x0a4f41898cb4ddda96c5fa2ee87515ce2349da2a0d31c53c63aa8e78d57ab52c"
   },
   "proxies": [
     {
@@ -17,7 +17,7 @@
     },
     {
       "address": "0xddE78e6202518FF4936b5302cC2891ec180E8bFf",
-      "txHash": "0xaf0c9cc99efc6fdf7a382c9354273c1ce26caeeae026211d66f2b9e3a7750f0b",
+      "txHash": "0xce012e2fb360b4e86b361aa0983665a90fbfdd383e5f7b638b9d615a764acb3a",
       "kind": "transparent"
     }
   ],
@@ -534,9 +534,9 @@
         }
       }
     },
-    "1f7868f7aa516f3aaa5b05566f86af59d722dbb17d80ce1ff2baeafeb782a9c2": {
+    "7c59787449958d2fcbd0b2713eccce3d2ed849e752283a7cff002a40fe21061d": {
       "address": "0xA56F946D6398Dd7d9D4D9B337Cf9E0F68982ca5B",
-      "txHash": "0x1ee26ef8ed0ba28dd04e3b51fa27f787751af67a7d5d99e0ddd53321cd212726",
+      "txHash": "0x3f31f3902b94f2859595accd473d4bbddf5a9d0b6aa079691016ca5a611d10a4",
       "layout": {
         "storage": [
           {
@@ -644,7 +644,7 @@
             "src": "contracts\\StakeContract.sol:18"
           },
           {
-            "label": "_balances",
+            "label": "balances",
             "offset": 0,
             "slot": "13",
             "type": "t_mapping(t_address,t_uint256)",

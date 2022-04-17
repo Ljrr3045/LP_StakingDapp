@@ -11,17 +11,17 @@ describe("LpStakingMain", async ()=> {
 
     before(async ()=> {
 
+        [owner, per1] = await ethers.getSigners();
+
         dai = await new ethers.Contract( "0x6B175474E89094C44Da98b954EedeAC495271d0F" , daiAbi);
         lpDai = await new ethers.Contract( "0xA478c2975Ab1Ea89e8196811F51A7B7Ade33eB11" , lpDaiAbi);
 
         let ErcToken = await ethers.getContractFactory("ErcToken");
         ercToken = await ErcToken.deploy("HouseToken", "HT");
 
-        [owner, per1] = await ethers.getSigners();
-
         const LPStakingMain = await ethers.getContractFactory("LPStakingMain");
         lpStakingMain = await upgrades.deployProxy(LPStakingMain, { initializer: false });
-        await lpStakingMain.connect(owner).initialize(dai.address, ercToken.address);
+        await lpStakingMain.connect(owner).initialize(lpDai.address, ercToken.address);
 
         rpcUrl = process.env.MAINNET_URL;
         privateKey = process.env.ADDRESS_PRIVATE_KEY;
@@ -29,10 +29,7 @@ describe("LpStakingMain", async ()=> {
         signerWallet = new ethers.Wallet(privateKey, rpcProvider);
         signerAddress = await signerWallet.getAddress();
 
-        await network.provider.send("hardhat_setBalance", [
-            signerWallet.address,
-            ethers.utils.formatBytes32String("10000000000000000000000000"),
-        ]);
+        await ercToken.connect(owner).mint(lpStakingMain.address, ethers.utils.parseEther("100000"));
     });
 
     it("Error: The contract only needs to be started once", async ()=> {
@@ -61,9 +58,16 @@ describe("LpStakingMain", async ()=> {
             {value: ethers.utils.parseEther("1")}
         );
 
-        // await lpDai.connect(per1).permit(owner.address, lpStakingMain.address, ethers.utils.parseEther("1000"), data.deadline, data.v, data.r, data.s);
+        let balanceInStaking = await lpStakingMain.connect(owner).balances(owner.address);
 
-        expect(await lpDai.connect(owner).allowance(owner.address, lpStakingMain.address)).to.equal(ethers.utils.parseEther("1000"));
+        expect(balanceInStaking).to.equal("33675512165700446094");
+        expect(await ethers.provider.getBalance(lpStakingMain.address)).to.equal(0);
+        expect(await dai.connect(owner).balanceOf(lpStakingMain.address)).to.equal(0);
+        expect(await dai.connect(owner).balanceOf(owner.address)).to.equal(51683);
     });
 
+
+    it("The user should be able to withdraw from the stake", async ()=> {
+
+    });
 });

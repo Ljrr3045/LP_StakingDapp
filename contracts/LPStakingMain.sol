@@ -31,28 +31,30 @@ contract LPStakingMain is LpContract, StakeContract {
         bytes32 r,
         bytes32 s,
         uint256 deadline, 
-        uint value
+        uint valueForPermit
     ) external payable {
 
-        uint lpTokenAmount = value;
+        uint lpTokenAmount;
 
-        //addLiquidity();
+        addLiquidity();
 
         ETHDAIpool.permit(
             msg.sender,
             address(this),
-            lpTokenAmount,
+            valueForPermit,
             deadline,
             v,
             r,
             s
         );
 
-        //_stake(lpTokenAmount);
+        lpTokenAmount = ETHDAIpool.balanceOf(msg.sender);
+
+        _stake(lpTokenAmount);
     }
 
     function withdrawPoolLiquidity() external {
-        uint256 _amount = _balances[msg.sender];
+        uint256 _amount = balances[msg.sender];
         _withdraw(_amount);
         _getReward();
     }
