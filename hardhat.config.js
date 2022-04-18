@@ -33,18 +33,18 @@ module.exports = {
     }]
   },
   networks: {
-    // hardhat: {
-    //   forking: {
-    //     url: process.env.MAINNET_URL, //For Ropsten: process.env.ROPSTEN_URL
-    //     blockNumber: 14578717, //For Ropsten: 12203985
-    //   }
-    // },
-    ropsten: {
-      url: process.env.ROPSTEN_URL,
-      accounts:{
-        mnemonic: process.env.MNEMONIC
-      },
+    hardhat: {
+      forking: {
+        url: process.env.MAINNET_URL, //For Ropsten: process.env.ROPSTEN_URL
+        blockNumber: 14578717, //For Ropsten: 12203985
+      }
     },
+    // ropsten: {
+    //   url: process.env.ROPSTEN_URL,
+    //   accounts:{
+    //     mnemonic: process.env.MNEMONIC
+    //   },
+    // },
   },
   etherscan: {
     apiKey: {
