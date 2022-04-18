@@ -8,7 +8,7 @@ async function main() {
     const ercToken = await ErcToken.deploy("HouseToken", "HT");
 
     const LPStakingMain = await ethers.getContractFactory("LPStakingMain");
-    const lpStakingMain = await upgrades.deployProxy(LPStakingMain, [lpDai, ercToken.address, 1] ,{ initialize: "initialize"});
+    const lpStakingMain = await upgrades.deployProxy(LPStakingMain, [lpDai, ercToken.address, 0] ,{ initialize: "initialize"});
 
     await ercToken.connect(owner).mint(lpStakingMain.address, ethers.utils.parseEther("100000"));
 
