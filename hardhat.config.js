@@ -39,8 +39,8 @@ module.exports = {
         blockNumber: 14578717,
       }
     },
-    // rinkeby: {
-    //   url: process.env.RINKEBY_URL,
+    // ropsten: {
+    //   url: process.env.ROPSTEN_URL,
     //   accounts:{
     //     mnemonic: process.env.MNEMONIC
     //   },
@@ -48,7 +48,7 @@ module.exports = {
   },
   etherscan: {
     apiKey: {
-      rinkeby: process.env.ETHERSCAN_API_KEY
+      ropsten: process.env.ETHERSCAN_API_KEY
     }
   },
   gasReporter: {

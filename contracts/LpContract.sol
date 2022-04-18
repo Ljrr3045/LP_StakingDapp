@@ -15,7 +15,7 @@ contract LpContract{
     IUniswapV2Router internal routerV2;
     IUniswapV2Factory internal factoryV2;
 
-    enum NetWork {Maint, Rinkeby}
+    enum NetWork {Maint, Ropsten}
 
     function _LpContract_init(NetWork _netWork) internal {
 
@@ -25,7 +25,7 @@ contract LpContract{
             weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
         }else{
 
-            dai = 0x2e055eEe18284513B993dB7568A592679aB13188;
+            dai = 0xaD6D458402F60fD3Bd25163575031ACDce07538D;
             weth = 0xc778417E063141139Fce010982780140Aa0cD5Ab;
         }
 
