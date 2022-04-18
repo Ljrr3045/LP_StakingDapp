@@ -19,7 +19,7 @@ LpStakinContract: 0x1493B00F5a096970c65705262ca7d193E554C10f<br>
 To get the value you should use in "ADDRESS_PRIVATE_KEY", you first need to run the "hardhat node" command on your console and extract the private key from the first address in the list.
 
 Hardhat Accounts
-========
+
 Account #0: 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 (10000 ETH)
 Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80  -----> this private key
 
