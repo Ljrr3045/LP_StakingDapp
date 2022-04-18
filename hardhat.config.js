@@ -33,18 +33,18 @@ module.exports = {
     }]
   },
   networks: {
-    hardhat: {
-      forking: {
-        url: process.env.MAINNET_URL, 
-        blockNumber: 14578717,
-      }
-    },
-    // rinkeby: {
-    //   url: process.env.RINKEBY_URL,
-    //   accounts:{
-    //     mnemonic: process.env.MNEMONIC
-    //   },
+    // hardhat: {
+    //   forking: {
+    //     url: process.env.MAINNET_URL, 
+    //     blockNumber: 14578717,
+    //   }
     // },
+    rinkeby: {
+      url: process.env.RINKEBY_URL,
+      accounts:{
+        mnemonic: process.env.MNEMONIC
+      },
+    },
   },
   etherscan: {
     apiKey: {

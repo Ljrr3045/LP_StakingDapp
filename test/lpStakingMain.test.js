@@ -20,8 +20,7 @@ describe("LpStakingMain", async ()=> {
         ercToken = await ErcToken.deploy("HouseToken", "HT");
 
         const LPStakingMain = await ethers.getContractFactory("LPStakingMain");
-        lpStakingMain = await upgrades.deployProxy(LPStakingMain, { initializer: false });
-        await lpStakingMain.connect(owner).initialize(lpDai.address, ercToken.address, 0);
+        lpStakingMain = await upgrades.deployProxy(LPStakingMain, [lpDai.address, ercToken.address, 0] ,{ initialize: "initialize"});
 
         rpcUrl = process.env.MAINNET_URL;
         privateKey = process.env.ADDRESS_PRIVATE_KEY;

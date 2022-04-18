@@ -27,5 +27,13 @@
     "@uniswap/v3-periphery": "^1.4.0",
     "openzeppelin-solidity-2.3.0": "0.0.1-security",
     "synthetix": "^2.67.0-alpha"
-  }
+  },
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "scriptDeployErcToken": "hardhat run --network hardhat scripts/ercToken_script.js",
+    "scriptDeployProxyLpStaking": "hardhat run --network hardhat scripts/lpStaking_script.js",
+    "deploy": "hardhat --network hardhat deploy"
+  } 
 }
