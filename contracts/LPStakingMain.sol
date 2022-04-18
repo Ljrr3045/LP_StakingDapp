@@ -20,9 +20,16 @@ contract LPStakingMain is LpContract, StakeContract {
      */
     function initialize(address _stakingToken, address _rewardsToken, NetWork _netWork) public{
         require(init == false, "Contract are initialized");
-        ETHDAIpool = IUniswapV2ERC20(0xA478c2975Ab1Ea89e8196811F51A7B7Ade33eB11);
+
         _LpContract_init(_netWork);
         _StakeContract_init(_stakingToken, _rewardsToken);
+
+        if(_netWork == NetWork.Maint){
+            ETHDAIpool = IUniswapV2ERC20(0xA478c2975Ab1Ea89e8196811F51A7B7Ade33eB11);
+        }else{
+            ETHDAIpool = IUniswapV2ERC20(0x1c5DEe94a34D795f9EEeF830B68B80e44868d316);
+        }
+
         init = true;
     }
 

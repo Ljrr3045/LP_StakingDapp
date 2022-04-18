@@ -3,15 +3,10 @@
 ---------------------------------------------------------------------------------------------------
 # Contracs Address: <br>
 
-- Rinkeby
-
-TokenRewars: 0x55BE399d4C8Aeccf7B75263f1453Afe92d742715<br>
-LpStakinContract: 0x670e46001932ea4bC152567540ccD2EBbcAaC916<br>
-
 - Ropsten
 
-TokenRewars: 0xfE2Ef4FF2aEB552E554d10902c974e506BeA04AA<br>
-LpStakinContract: 0x447aFf79eC207D4c0aCFF03d598e711FA18e0c0D<br>
+TokenRewars: 0xD80c0e3AEb7CDe17E07Db57531aF9582B3409613<br>
+LpStakinContract: 0x1493B00F5a096970c65705262ca7d193E554C10f<br>
 
 ---------------------------------------------------------------------------------------------------
 
