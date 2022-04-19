@@ -1,0 +1,178 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x83D7d13e153bAFE7a44926C2d00C32ecD66c010D",
+    "txHash": "0x374ee88bb91c671b4c46d3644b14ae8c74f9f8111b0527248d16a38fec9c386f"
+  },
+  "proxies": [
+    {
+      "address": "0x670e46001932ea4bC152567540ccD2EBbcAaC916",
+      "txHash": "0xb1db69edaffd18a4bfd9661b7706453fdec9ea64849a5f106e540966e8e538bd",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "1b615d6c86fc9795ed8b47c5b12d06ab10ee8d8ef4d6fff7e5be6369b3276da6": {
+      "address": "0xc786BB2D8eF1EEdDD8EEb49Dd80711e9D26AbE16",
+      "txHash": "0xa9555593874bf275920f0c308cf00c1cea2246e9a27190a94cb27a7d935d0340",
+      "layout": {
+        "storage": [
+          {
+            "label": "dai",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "LpContract",
+            "src": "contracts\\LpContract.sol:13"
+          },
+          {
+            "label": "weth",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address",
+            "contract": "LpContract",
+            "src": "contracts\\LpContract.sol:14"
+          },
+          {
+            "label": "routerV2",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_contract(IUniswapV2Router)2104",
+            "contract": "LpContract",
+            "src": "contracts\\LpContract.sol:15"
+          },
+          {
+            "label": "factoryV2",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_contract(IUniswapV2Factory)1922",
+            "contract": "LpContract",
+            "src": "contracts\\LpContract.sol:16"
+          },
+          {
+            "label": "rewardsToken",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_contract(IERC20)770",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:8"
+          },
+          {
+            "label": "stakingToken",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_contract(IERC20)770",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:9"
+          },
+          {
+            "label": "rewardRate",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_uint256",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:11"
+          },
+          {
+            "label": "lastUpdateTime",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_uint256",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:12"
+          },
+          {
+            "label": "rewardPerTokenStored",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_uint256",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:13"
+          },
+          {
+            "label": "userRewardPerTokenPaid",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:15"
+          },
+          {
+            "label": "rewards",
+            "offset": 0,
+            "slot": "10",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:16"
+          },
+          {
+            "label": "_totalSupply",
+            "offset": 0,
+            "slot": "11",
+            "type": "t_uint256",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:18"
+          },
+          {
+            "label": "balances",
+            "offset": 0,
+            "slot": "12",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "StakeContract",
+            "src": "contracts\\StakeContract.sol:19"
+          },
+          {
+            "label": "init",
+            "offset": 0,
+            "slot": "13",
+            "type": "t_bool",
+            "contract": "LPStakingMain",
+            "src": "contracts\\LPStakingMain.sol:13"
+          },
+          {
+            "label": "ETHDAIpool",
+            "offset": 1,
+            "slot": "13",
+            "type": "t_contract(IUniswapV2ERC20)1910",
+            "contract": "LPStakingMain",
+            "src": "contracts\\LPStakingMain.sol:14"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(IERC20)770": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IUniswapV2ERC20)1910": {
+            "label": "contract IUniswapV2ERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IUniswapV2Factory)1922": {
+            "label": "contract IUniswapV2Factory",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IUniswapV2Router)2104": {
+            "label": "contract IUniswapV2Router",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    }
+  }
+}

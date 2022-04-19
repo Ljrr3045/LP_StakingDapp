@@ -1,0 +1,39 @@
+{
+  "name": "hardhat-project",
+  "devDependencies": {
+    "@ethersproject/providers": "^5.6.4",
+    "@nomiclabs/hardhat-ethers": "^2.0.5",
+    "@nomiclabs/hardhat-etherscan": "^3.0.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "@nomiclabs/hardhat-web3": "^2.0.0",
+    "@openzeppelin/hardhat-upgrades": "^1.17.0",
+    "@openzeppelin/test-environment": "^0.1.9",
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "chai": "^4.2.0",
+    "dotenv": "^16.0.0",
+    "eth-permit": "^0.2.1",
+    "ethereum-waffle": "^3.0.0",
+    "ethers": "^5.6.3",
+    "hardhat": "^2.9.3",
+    "hardhat-deploy": "^0.11.4",
+    "hardhat-gas-reporter": "^1.0.8",
+    "solidity-coverage": "^0.7.20",
+    "web3": "^1.7.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.5.0",
+    "@openzeppelin/contracts-upgradeable": "^4.5.2",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
+    "@uniswap/v3-periphery": "^1.4.0",
+    "openzeppelin-solidity-2.3.0": "0.0.1-security",
+    "synthetix": "^2.67.0-alpha"
+  },
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "scriptDeployErcToken": "hardhat run --network hardhat scripts/ercToken_script.js",
+    "scriptDeployProxyLpStaking": "hardhat run --network hardhat scripts/lpStaking_script.js",
+    "deploy": "hardhat --network hardhat deploy"
+  }
+}
