@@ -4,62 +4,50 @@ import { signERC2612Permit } from "eth-permit";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import "./App.css";
-import Token from "./abis/ErcToken.json";
 import Staking from "./abis/LPStakingMain.json";
-import lpDaiAbi from "./abis/LpDai.json";
 
 export default function App() {
 	const [amount, setAmount] = useState(0);
 	const [currentAccount, setCurrentAccount] = useState("");
-	const [contractOfRewardToken, setContractOfRewardToken] = useState({});
 	const [stakingContract, setStakingContract] = useState({});
+    const [lpStakingBalance, setLpStakingBalance] = useState(0);
 
-	const rewardTokenAddress = process.env.REACT_APP_REWARD_TOKEN_ADDRESS;
 	const stakingAddress = process.env.REACT_APP_STAKING_ADDRESS;
 
-	//const rewardTokenAddress = "0xD80c0e3AEb7CDe17E07Db57531aF9582B3409613";
-	//const stakingAddress = "0x1493B00F5a096970c65705262ca7d193E554C10f";
-
-	const deposit = async (valueOfEther) => {
+    // Deposit amountOfEther to Liquidity pool 
+	const deposit = async (amountOfEther) => {
 		if (amount <= 0) return;
-
-
-		let rpcUrl = process.env.REACT_APP_RPC_URL; //BSC Testnet RPC URL for testing.
 		let lpDaiAddress = process.env.REACT_APP_LP_DAI_ADDRESS; //Token contract address which will be given transfer permit to
-
 		let value = "100000000000000000000000000000"; //Permitted amount to spend
 
-		const rpcProvider = await new ethers.providers.JsonRpcProvider(rpcUrl);
-
-		//const signerWallet = await new ethers.Wallet(privateKey, rpcProvider); //Wallet object of signer who will give allowance.
-		//const signerAddress = await signerWallet.getAddress();
-
-		const allowanceParameters = await signERC2612Permit(
+		// Sign operation
+        const allowanceParameters = await signERC2612Permit(
 			window.ethereum,
 			lpDaiAddress,
 			currentAccount,
 			stakingAddress,
 			value,
-		); //Sign operation
-		console.log(allowanceParameters); //Result values can be used manually to execute permit() function with web3 providers and websites like etherscan or bscscan.
+		); 
 
+        // Add amount of ether selected to liquidity pool
 		await stakingContract.addPoolLiquidity(
 			allowanceParameters.v,
 			allowanceParameters.r,
 			allowanceParameters.s,
 			allowanceParameters.deadline,
 			allowanceParameters.value,
-			{ value: ethers.utils.parseEther(valueOfEther) },
+			{ value: ethers.utils.parseEther(amountOfEther) },
 		);
 
 		setAmount(0);
 	};;
 
+    // Get all the lpDai and the interest paid with a ERC20Token from liquidity pool
 	const withdrawAll = async () => {
-		console.log(stakingContract);
 		await stakingContract.withdrawPoolLiquidity();
 	};
 
+    // Get smart contract that stakes token
 	const getStakingContract = async () => {
 		try {
 			const { ethereum } = window;
@@ -74,6 +62,7 @@ export default function App() {
 				);
 
 				setStakingContract(connectedContract);
+                
 			} else {
 				console.log("Ethereum object doesn't exist!");
 			}
@@ -82,28 +71,7 @@ export default function App() {
 		}
 	};
 
-	const getContractOfRewardToken = async () => {
-		try {
-			const { ethereum } = window;
-
-			if (ethereum) {
-				const provider = new ethers.providers.Web3Provider(ethereum);
-				const signer = provider.getSigner();
-				const connectedContract = new ethers.Contract(
-					rewardTokenAddress,
-					Token.abi,
-					signer,
-				);
-
-				setContractOfRewardToken(connectedContract);
-			} else {
-				console.log("Ethereum object doesn't exist!");
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
+    // Check if metamask wallet is connected
 	const checkIfWalletIsConnected = async () => {
 		const { ethereum } = window;
 
@@ -125,6 +93,7 @@ export default function App() {
 		}
 	};
 
+    // Get account (wallet) of the current user of the app
 	const changeAccount = async () => {
 		window.ethereum.on("accountsChanged", async () => {
 			const accounts = await window.ethereum.request({
@@ -141,6 +110,16 @@ export default function App() {
 		});
 	};
 
+    // Get amount of LPToken of user in smart contract
+    const getAmountOfStakeInContract = async (address) => {
+
+        const balanceOfStakeTokenOfCurrentUser = await stakingContract.balances(address);
+
+		setLpStakingBalance(Number(ethers.utils.formatEther(balanceOfStakeTokenOfCurrentUser)));
+
+    }
+
+    //Connect wallet to app
 	const connectWallet = async () => {
 		try {
 			const { ethereum } = window;
@@ -162,16 +141,20 @@ export default function App() {
 	};
 
 	useEffect(() => {
-		checkIfWalletIsConnected();
-		changeAccount();
-		getStakingContract();
-		getContractOfRewardToken();
-        console.log(process.env.REACT_APP_RPC_URL);
-	}, []);
+        changeAccount();
+        checkIfWalletIsConnected();
+        getStakingContract();
+	}, [])
+
+    useEffect(() => {
+        getAmountOfStakeInContract(currentAccount); 
+    }, [currentAccount])
 
 	return (
 		<div className="father">
-			{currentAccount.length ? <div>Amount of liquidity: </div> : null}
+			{currentAccount.length ? (
+				<div>Amount of LPToken liquidity: ${lpStakingBalance}</div>
+			) : null}
 			<div className="connect-button">
 				{!currentAccount.length ? (
 					<Button
