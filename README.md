@@ -4,6 +4,11 @@ The purpose of this project is to develop a Dapp where users, from the investmen
 in turn stake these in this project in order to receive profits in HouseToken.
 
 ---------------------------------------------------------------------------------------------------
+# Deployed App: <br>
+
+- Link: https://warm-monstera-08d006.netlify.app/<br>
+
+---------------------------------------------------------------------------------------------------
 # Contracs Address: <br>
 
 - Ropsten <br>
