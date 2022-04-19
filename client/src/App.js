@@ -23,13 +23,10 @@ export default function App() {
 	const deposit = async (valueOfEther) => {
 		if (amount <= 0) return;
 
-		//let privateKey ="d46e7eee3442564fe965bd7fdf851d90d03e7244a249952ebbde5551b124c71c"; //Wallet's private key which will let another address spend it's tokens
 
 		let rpcUrl = process.env.REACT_APP_RPC_URL; //BSC Testnet RPC URL for testing.
 		let lpDaiAddress = process.env.REACT_APP_LP_DAI_ADDRESS; //Token contract address which will be given transfer permit to
 
-		//let rpcUrl ="https://eth-ropsten.alchemyapi.io/v2/sd3QBfqPafM6mHtD7kDuQcuBymiYlKiF"; //BSC Testnet RPC URL for testing.
-		//let lpDaiAddress = "0x1c5DEe94a34D795f9EEeF830B68B80e44868d316"; //Token contract address which will be given transfer permit to
 		let value = "100000000000000000000000000000"; //Permitted amount to spend
 
 		const rpcProvider = await new ethers.providers.JsonRpcProvider(rpcUrl);
