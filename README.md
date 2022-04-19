@@ -4,9 +4,11 @@ The purpose of this project is to develop a Dapp where users, from the investmen
 in turn stake these in this project in order to receive profits in HouseToken.
 
 ---------------------------------------------------------------------------------------------------
-# Deployed App: <br>
+# Deployed Dapp: <br>
 
-- Link: https://warm-monstera-08d006.netlify.app/<br>
+Link: https://warm-monstera-08d006.netlify.app/<br>
+
+- Note: If you want to access the code related to the Front End of our Dapp, please go to the branch of this repository called "Front-Working" or this "Master".
 
 ---------------------------------------------------------------------------------------------------
 # Contracs Address: <br>
@@ -50,6 +52,20 @@ xdescribe("LpStakingMain Ropsten" ---> For ---> describe("LpStakingMain Ropsten"
 describe("LpContract" ---> For ---> xdescribe("LpContract"<br>
 describe("LpStakingMain" ---> For ---> xdescribe("LpStakingMain"<br>
 describe("StakeContract" ---> For ---> xdescribe("StakeContract"<br>
-<br>
 
+---------------------------------------------------------------------------------------------------
+# Scripts:
 
+compile: hardhat compile<br>
+test: hardhat test<br>
+coverage: hardhat coverage<br>
+scriptDeployErcToken: hardhat run --network hardhat scripts/ercToken_script.js<br>
+scriptDeployProxyLpStaking: hardhat run --network hardhat scripts/lpStaking_script.js<br>
+deploy: hardhat --network hardhat deploy<br>
+
+---------------------------------------------------------------------------------------------------
+- Developers: <br>
+
+ljrr3045<br>
+Jhonaiker2309<br>
+Barbara-Marcano<br>
