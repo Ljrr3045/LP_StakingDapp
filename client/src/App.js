@@ -150,7 +150,7 @@ export default function App() {
                     query: `
                         {
                             transfers(
-							skip: 1,
+							skip: 1
 							first: 5,
                             orderBy: value, 
                             orderDirection: desc){
@@ -182,6 +182,10 @@ export default function App() {
     useEffect(() => {
         getAmountOfStakeInContract(currentAccount); 
     }, [currentAccount])
+
+	useEffect(() => {
+		subgraphCall();
+	}, [currentAccount])
 
 	return (
 		<div className="father">
@@ -230,13 +234,16 @@ export default function App() {
 					</div>
 				</div>
 			</div>
-			<hr style={{ color: "black", backgroundColor: "black", height: 2, position: "relative", top: "480px"}}/>
+			<hr style={{ color: "black", backgroundColor: "black", height: 2, position: "relative", top: "500px"}}/>
 			<div className="footer">
 				<h1>Largest withdrawals made by users</h1>
 			</div>
 			<div className="footer2">
-				<Subgraph/>
-				<Subgraph/>
+				{
+					subgraphData.map(({to, value}) => {
+						<Subgraph user = {to} amount = {value}/>
+					})
+				}
 			</div>
 		</div>
 	);
