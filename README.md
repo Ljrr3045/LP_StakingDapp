@@ -4,6 +4,18 @@ The purpose of this project is to develop a Dapp where users, from the investmen
 in turn stake these in this project in order to receive profits in HouseToken.
 
 ---------------------------------------------------------------------------------------------------
+# Deployed Dapp: <br>
+
+Link: https://warm-monstera-08d006.netlify.app/<br>
+
+- Note: If you want to access the code related to the Front End of our Dapp, please go to the branch of this repository called "Front-Working" or this "Master".
+
+---------------------------------------------------------------------------------------------------
+# SubGraph: <br>
+
+- Graph Address: https://thegraph.com/hosted-service/subgraph/ljrr3045/house-token-subgraph<br>
+
+---------------------------------------------------------------------------------------------------
 # Contracs Address: <br>
 
 - Ropsten <br>
@@ -33,8 +45,8 @@ The test of these contracts is designed to be done on the Mainnet, but in order 
 
     - Change the network where the fork is made
 
-url: process.env.MAINNET_URL ---> For ---> url: process.env.ROPSTEN_URL
-blockNumber: 14578717 ---> For ---> blockNumber: 12203985
+url: process.env.MAINNET_URL ---> For ---> url: process.env.ROPSTEN_URL<br>
+blockNumber: 14578717 ---> For ---> blockNumber: 12203985<br>
 
     - Activate the Ropsten network test
 
@@ -42,9 +54,23 @@ xdescribe("LpStakingMain Ropsten" ---> For ---> describe("LpStakingMain Ropsten"
 
     - Disable Mainnet network tests
 
-describe("LpContract" ---> For ---> xdescribe("LpContract"
-describe("LpStakingMain" ---> For ---> xdescribe("LpStakingMain"
-describe("StakeContract" ---> For ---> xdescribe("StakeContract"
-<br>
+describe("LpContract" ---> For ---> xdescribe("LpContract"<br>
+describe("LpStakingMain" ---> For ---> xdescribe("LpStakingMain"<br>
+describe("StakeContract" ---> For ---> xdescribe("StakeContract"<br>
 
+---------------------------------------------------------------------------------------------------
+# Scripts:
 
+compile: hardhat compile<br>
+test: hardhat test<br>
+coverage: hardhat coverage<br>
+scriptDeployErcToken: hardhat run --network hardhat scripts/ercToken_script.js<br>
+scriptDeployProxyLpStaking: hardhat run --network hardhat scripts/lpStaking_script.js<br>
+deploy: hardhat --network hardhat deploy<br>
+
+---------------------------------------------------------------------------------------------------
+- Developers: <br>
+
+ljrr3045<br>
+Jhonaiker2309<br>
+Barbara-Marcano<br>

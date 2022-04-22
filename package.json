@@ -2,6 +2,7 @@
   "name": "hardhat-project",
   "devDependencies": {
     "@ethersproject/providers": "^5.6.4",
+    "@graphprotocol/graph-cli": "^0.29.0",
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-etherscan": "^3.0.3",
     "@nomiclabs/hardhat-waffle": "^2.0.0",
@@ -21,10 +22,12 @@
     "web3": "^1.7.3"
   },
   "dependencies": {
+    "@graphprotocol/graph-ts": "^0.26.0",
     "@openzeppelin/contracts": "^4.5.0",
     "@openzeppelin/contracts-upgradeable": "^4.5.2",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "@uniswap/v3-periphery": "^1.4.0",
+    "axios": "^0.26.1",
     "openzeppelin-solidity-2.3.0": "0.0.1-security",
     "synthetix": "^2.67.0-alpha"
   },
@@ -35,5 +38,5 @@
     "scriptDeployErcToken": "hardhat run --network hardhat scripts/ercToken_script.js",
     "scriptDeployProxyLpStaking": "hardhat run --network hardhat scripts/lpStaking_script.js",
     "deploy": "hardhat --network hardhat deploy"
-  } 
+  }
 }
