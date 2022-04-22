@@ -4,13 +4,16 @@ import { signERC2612Permit } from "eth-permit";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import "./App.css";
+import Subgraph from "./Subgraph.js";
 import Staking from "./abis/LPStakingMain.json";
+import axios from "axios";
 
 export default function App() {
 	const [amount, setAmount] = useState(0);
 	const [currentAccount, setCurrentAccount] = useState("");
 	const [stakingContract, setStakingContract] = useState({});
     const [lpStakingBalance, setLpStakingBalance] = useState(0);
+	const [subgraphData, setSubgraphData] = useState([]);
 
 	const stakingAddress = process.env.REACT_APP_STAKING_ADDRESS;
 
@@ -140,10 +143,40 @@ export default function App() {
 		}
 	};
 
+	const subgraphCall = async () => {
+		try {
+			let {data} = await axios.post(`https://api.thegraph.com/subgraphs/name/ljrr3045/house-token-subgraph`,
+                {
+                    query: `
+                        {
+                            transfers(
+							skip: 1,
+							first: 5,
+                            orderBy: value, 
+                            orderDirection: desc){
+                                id
+                                from
+                                to
+                                value
+                            }
+                        }
+
+                    `
+                }
+            );
+
+			setSubgraphData(data.data.transfers);
+			console.log("sube",subgraphData);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
         changeAccount();
         checkIfWalletIsConnected();
         getStakingContract();
+		subgraphCall();
 	}, [])
 
     useEffect(() => {
@@ -153,7 +186,7 @@ export default function App() {
 	return (
 		<div className="father">
 			{currentAccount.length ? (
-				<div>Amount of LPToken liquidity: ${lpStakingBalance}</div>
+				<div className="rectangule">LPToken in stake: {lpStakingBalance.toPrecision(7)}</div>
 			) : null}
 			<div className="connect-button">
 				{!currentAccount.length ? (
@@ -161,9 +194,9 @@ export default function App() {
 						variant="outlined"
 						onClick={() => connectWallet()}
 						sx={{ color: "black", background: "white" }}>
-						Connect
+						CONNECT
 					</Button>
-				) : null}
+				) : <div className="rectangule2">CONNECTED</div>}
 			</div>
 			<div className="input-father">
 				<div className="input">
@@ -196,6 +229,14 @@ export default function App() {
 						</Button>
 					</div>
 				</div>
+			</div>
+			<hr style={{ color: "black", backgroundColor: "black", height: 2, position: "relative", top: "480px"}}/>
+			<div className="footer">
+				<h1>Largest withdrawals made by users</h1>
+			</div>
+			<div className="footer2">
+				<Subgraph/>
+				<Subgraph/>
 			</div>
 		</div>
 	);
