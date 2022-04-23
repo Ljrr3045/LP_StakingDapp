@@ -1,7 +1,10 @@
 .father {
     height: 97vh;
     width: 98vw;
-    
+    background-image: url("Ethereum_logo.png");
+    background-repeat: no-repeat;
+    background-size: 10%;
+    background-position: top;
 }
 
 .connect-button {
@@ -15,24 +18,35 @@
     display: grid;
     grid-template-columns: auto auto;
     top: 60%;
-    justify-content: space-around;
-    width: 98vw;
+    justify-content: space-between;
+    width: 30vw;
 }
 
 .input-father {
-    position: absolute;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    width: 98vw;
-    height: 90vh;
+  
 }
 
 .input {
-    width: 50vw;
+    width: 30vw;
 }
 
 .Button {
   color: black;
 }
 
+.container {
+    position: relative;
+    top: 30%;
+    left: 25%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    width: 50vw;
+    height: 50vh;
+    background-color: #ffffff;
+    opacity: 0.6;
+    border-radius: 20px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: grey;
+}

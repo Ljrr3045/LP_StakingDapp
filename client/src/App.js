@@ -3,6 +3,9 @@ import { ethers } from "ethers";
 import { signERC2612Permit } from "eth-permit";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import SavingsIcon from '@mui/icons-material/Savings';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import OutboxIcon from '@mui/icons-material/Outbox';
 import "./App.css";
 import Staking from "./abis/LPStakingMain.json";
 
@@ -158,42 +161,52 @@ export default function App() {
 			<div className="connect-button">
 				{!currentAccount.length ? (
 					<Button
-						variant="outlined"
+						variant="contained"
+						startIcon={<AccountBalanceWalletIcon/>}
 						onClick={() => connectWallet()}
-						sx={{ color: "black", background: "white" }}>
-						Connect
+						sx={{ color: "white", background: "#000428" }}
+						style={{borderRadius: '10px', overflow: 'hidden'}}>
+						Connect wallet
 					</Button>
 				) : null}
 			</div>
-			<div className="input-father">
-				<div className="input">
-					<TextField
-						fullWidth
-						label="Amount of ether"
-						variant="standard"
-						type="number"
-						value={amount}
-						onChange={(e) => setAmount(e.target.value)}
-					/>
-				</div>
-			</div>
-			<div className="grid-father">
-				<div className="grid">
-					<div>
-						<Button
-							variant="contained"
-							sx={{ color: "white", background: "black" }}
-							onClick={() => deposit(amount)}>
-							Deposit
-						</Button>
+			<div className="container">
+				<div className="input-father">
+					<div className="input">
+						<TextField
+							fullWidth
+							label="Amount of Ether"
+					        InputLabelProps={{ style: { fontSize: 17 } }}
+							variant="outlined"
+							type="number"
+							InputProps={{ inputProps: { min: 0 } }}
+							value={amount}
+							onChange={(e) => setAmount(e.target.value)}
+						/>
 					</div>
-					<div>
-						<Button
-							variant="contained"
-							sx={{ color: "white", background: "black" }}
-							onClick={() => withdrawAll()}>
-							Withdraw All
-						</Button>
+				</div>
+				<div className="grid-father">
+					<div className="grid">
+						<div>
+							<Button
+								variant="contained"
+								startIcon={<SavingsIcon/>}
+								sx={{ color: "white", background: "black" }}
+								style={{borderRadius: '10px', overflow: 'hidden'}}
+								onClick={() => deposit(amount)}>	
+								Deposit
+							</Button>
+						</div>
+						<div>
+							<Button
+								variant="contained"
+								startIcon={<OutboxIcon/>}
+								sx={{ color: "white", background: "black" }}
+								style={{borderRadius: '10px', overflow: 'hidden'}}
+								onClick={() => withdrawAll()}>
+								Withdraw All
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
