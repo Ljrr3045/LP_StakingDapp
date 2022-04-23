@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { signERC2612Permit } from "eth-permit";
-import Subgraph from "./Subgraph.js";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import SavingsIcon from '@mui/icons-material/Savings';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import OutboxIcon from '@mui/icons-material/Outbox';
 import "./App.css";
+import Subgraph from "./Subgraph.js";
 import Staking from "./abis/LPStakingMain.json";
 import axios from "axios";
 
@@ -16,7 +13,7 @@ export default function App() {
 	const [currentAccount, setCurrentAccount] = useState("");
 	const [stakingContract, setStakingContract] = useState({});
     const [lpStakingBalance, setLpStakingBalance] = useState(0);
-    const [subgraphData, setSubgraphData] = useState([]);
+	const [subgraphData, setSubgraphData] = useState([]);
 
 	const stakingAddress = process.env.REACT_APP_STAKING_ADDRESS;
 
@@ -169,96 +166,85 @@ export default function App() {
             );
 
 			setSubgraphData(data.data.transfers);
+            console.log(data.data)
+			console.log("sube",subgraphData);
 		} catch (error) {
 			console.log(error);
 		}
-	};    
+	};
 
 	useEffect(() => {
         changeAccount();
         checkIfWalletIsConnected();
         getStakingContract();
-        subgraphCall();
+		subgraphCall();
 	}, [])
 
     useEffect(() => {
         getAmountOfStakeInContract(currentAccount); 
-        subgraphCall();
     }, [currentAccount])
+
+	useEffect(() => {
+		subgraphCall();
+	}, [currentAccount])
 
 	return (
 		<div className="father">
 			{currentAccount.length ? (
-				<div>Amount of LPToken liquidity: ${lpStakingBalance}</div>
+				<div className="rectangule">LPToken in stake: {lpStakingBalance.toPrecision(7)}</div>
 			) : null}
 			<div className="connect-button">
 				{!currentAccount.length ? (
 					<Button
-						variant="contained"
-						startIcon={<AccountBalanceWalletIcon />}
+						variant="outlined"
 						onClick={() => connectWallet()}
-						sx={{ color: "white", background: "#000428" }}
-						style={{ borderRadius: "10px", overflow: "hidden" }}>
-						Connect wallet
+						sx={{ color: "black", background: "white" }}>
+						CONNECT
 					</Button>
-				) : null}
+				) : <div className="rectangule2">CONNECTED</div>}
 			</div>
-			<div className="container">
-				<div className="input-father">
-					<div className="input">
-						<TextField
-							fullWidth
-							label="Amount of Ether"
-							InputLabelProps={{ style: { fontSize: 17 } }}
-							variant="outlined"
-							type="number"
-							InputProps={{ inputProps: { min: 0 } }}
-							value={amount}
-							onChange={(e) => setAmount(e.target.value)}
-						/>
-					</div>
+			<div className="input-father">
+				<div className="input">
+					<TextField
+						fullWidth
+						label="Amount of ether"
+						variant="standard"
+						type="number"
+						value={amount}
+						onChange={(e) => setAmount(e.target.value)}
+					/>
 				</div>
-				<div className="grid-father">
-					<div className="grid">
-						<div>
-							<Button
-								variant="contained"
-								startIcon={<SavingsIcon />}
-								sx={{ color: "white", background: "black" }}
-								style={{ borderRadius: "10px", overflow: "hidden" }}
-								onClick={() => deposit(amount)}>
-								Deposit
-							</Button>
-						</div>
-						<div>
-							<Button
-								variant="contained"
-								startIcon={<OutboxIcon />}
-								sx={{ color: "white", background: "black" }}
-								style={{ borderRadius: "10px", overflow: "hidden" }}
-								onClick={() => withdrawAll()}>
-								Withdraw All
-							</Button>
-						</div>
+			</div>
+			<div className="grid-father">
+				<div className="grid">
+					<div>
+						<Button
+							variant="contained"
+							sx={{ color: "white", background: "black" }}
+							onClick={() => deposit(amount)}>
+							Deposit
+						</Button>
+					</div>
+					<div>
+						<Button
+							variant="contained"
+							sx={{ color: "white", background: "black" }}
+							onClick={() => withdrawAll()}>
+							Withdraw All
+						</Button>
 					</div>
 				</div>
 			</div>
-			<hr
-				style={{
-					color: "black",
-					backgroundColor: "black",
-					height: 2,
-					position: "relative",
-					top: "500px",
-				}}
-			/>
+			<hr style={{ color: "black", backgroundColor: "black", height: 2, position: "relative", top: "500px"}}/>
 			<div className="footer">
 				<h1>Largest withdrawals made by users</h1>
 			</div>
 			<div className="footer2">
-				{subgraphData.map(({ to, value }) => (
-					<Subgraph user={to} amount={value} />
-				))}
+				{
+					subgraphData.map(({to, value}) => (
+						<Subgraph user = {to} amount = {value}/>
+                    ))
+				}
 			</div>
 		</div>
 	);
