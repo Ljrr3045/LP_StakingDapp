@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { signERC2612Permit } from "eth-permit";
+import Subgraph from "./Subgraph.js";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SavingsIcon from '@mui/icons-material/Savings';
@@ -8,12 +9,14 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import OutboxIcon from '@mui/icons-material/Outbox';
 import "./App.css";
 import Staking from "./abis/LPStakingMain.json";
+import axios from "axios";
 
 export default function App() {
 	const [amount, setAmount] = useState(0);
 	const [currentAccount, setCurrentAccount] = useState("");
 	const [stakingContract, setStakingContract] = useState({});
     const [lpStakingBalance, setLpStakingBalance] = useState(0);
+    const [subgraphData, setSubgraphData] = useState([]);
 
 	const stakingAddress = process.env.REACT_APP_STAKING_ADDRESS;
 
@@ -143,14 +146,44 @@ export default function App() {
 		}
 	};
 
+	const subgraphCall = async () => {
+		try {
+			let {data} = await axios.post(`https://api.thegraph.com/subgraphs/name/ljrr3045/house-token-subgraph`,
+                {
+                    query: `
+                        {
+                            transfers(
+							skip: 1
+							first: 5,
+                            orderBy: value, 
+                            orderDirection: desc){
+                                id
+                                from
+                                to
+                                value
+                            }
+                        }
+
+                    `
+                }
+            );
+
+			setSubgraphData(data.data.transfers);
+		} catch (error) {
+			console.log(error);
+		}
+	};    
+
 	useEffect(() => {
         changeAccount();
         checkIfWalletIsConnected();
         getStakingContract();
+        subgraphCall();
 	}, [])
 
     useEffect(() => {
         getAmountOfStakeInContract(currentAccount); 
+        subgraphCall();
     }, [currentAccount])
 
 	return (
@@ -162,10 +195,10 @@ export default function App() {
 				{!currentAccount.length ? (
 					<Button
 						variant="contained"
-						startIcon={<AccountBalanceWalletIcon/>}
+						startIcon={<AccountBalanceWalletIcon />}
 						onClick={() => connectWallet()}
 						sx={{ color: "white", background: "#000428" }}
-						style={{borderRadius: '10px', overflow: 'hidden'}}>
+						style={{ borderRadius: "10px", overflow: "hidden" }}>
 						Connect wallet
 					</Button>
 				) : null}
@@ -176,7 +209,7 @@ export default function App() {
 						<TextField
 							fullWidth
 							label="Amount of Ether"
-					        InputLabelProps={{ style: { fontSize: 17 } }}
+							InputLabelProps={{ style: { fontSize: 17 } }}
 							variant="outlined"
 							type="number"
 							InputProps={{ inputProps: { min: 0 } }}
@@ -190,25 +223,42 @@ export default function App() {
 						<div>
 							<Button
 								variant="contained"
-								startIcon={<SavingsIcon/>}
+								startIcon={<SavingsIcon />}
 								sx={{ color: "white", background: "black" }}
-								style={{borderRadius: '10px', overflow: 'hidden'}}
-								onClick={() => deposit(amount)}>	
+								style={{ borderRadius: "10px", overflow: "hidden" }}
+								onClick={() => deposit(amount)}>
 								Deposit
 							</Button>
 						</div>
 						<div>
 							<Button
 								variant="contained"
-								startIcon={<OutboxIcon/>}
+								startIcon={<OutboxIcon />}
 								sx={{ color: "white", background: "black" }}
-								style={{borderRadius: '10px', overflow: 'hidden'}}
+								style={{ borderRadius: "10px", overflow: "hidden" }}
 								onClick={() => withdrawAll()}>
 								Withdraw All
 							</Button>
 						</div>
 					</div>
 				</div>
+			</div>
+			<hr
+				style={{
+					color: "black",
+					backgroundColor: "black",
+					height: 2,
+					position: "relative",
+					top: "500px",
+				}}
+			/>
+			<div className="footer">
+				<h1>Largest withdrawals made by users</h1>
+			</div>
+			<div className="footer2">
+				{subgraphData.map(({ to, value }) => (
+					<Subgraph user={to} amount={value} />
+				))}
 			</div>
 		</div>
 	);
