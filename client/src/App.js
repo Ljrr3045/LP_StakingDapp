@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import OutboxIcon from '@mui/icons-material/Outbox';
 import "./App.css";
 import Staking from "./abis/LPStakingMain.json";
@@ -243,17 +244,18 @@ export default function App() {
 					</div>
 				</div>
 			</div>
-			<hr
+			{/* <hr
 				style={{
-					color: "black",
+					color: "white",
 					backgroundColor: "black",
 					height: 2,
 					position: "relative",
-					top: "500px",
+					top: "300px",
 				}}
-			/>
+			/> */}
 			<div className="footer">
-				<h1>Largest withdrawals made by users</h1>
+				<h1 className="tittle"> Largest withdrawals made by user</h1>
+				
 			</div>
 			<div className="footer2">
 				{subgraphData.map(({ to, value }) => (
