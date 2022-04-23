@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import OutboxIcon from '@mui/icons-material/Outbox';
 import "./App.css";
 import Staking from "./abis/LPStakingMain.json";

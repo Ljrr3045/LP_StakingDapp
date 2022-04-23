@@ -6,7 +6,7 @@ in turn stake these in this project in order to receive profits in HouseToken.
 ---------------------------------------------------------------------------------------------------
 # Deployed Dapp: <br>
 
-Link: https://warm-monstera-08d006.netlify.app/<br>
+Link: https://warm-monstera-08d006.netlify.app/<br> 
 
 - Note: If you want to access the code related to the Front End of our Dapp, please go to the branch of this repository called "Front-Working" or this "Master".
 
@@ -21,7 +21,7 @@ Link: https://warm-monstera-08d006.netlify.app/<br>
 - Ropsten <br>
 
 TokenRewars: 0xD80c0e3AEb7CDe17E07Db57531aF9582B3409613<br>
-LpStakinContract: 0x1493B00F5a096970c65705262ca7d193E554C10f<br>
+LpStakingContract: 0x1493B00F5a096970c65705262ca7d193E554C10f<br>
 
 ---------------------------------------------------------------------------------------------------
 # Notes: <br>
