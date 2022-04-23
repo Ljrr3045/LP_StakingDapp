@@ -8,7 +8,7 @@ in turn stake these in this project in order to receive profits in HouseToken.
 
 Link: https://warm-monstera-08d006.netlify.app/<br> 
 
-- Note: If you want to access the code related to the Front End of our Dapp, please go to the branch of this repository called "Front-Working" or this "Master".
+- Note: If you want to access the code related to the Front End of our Dapp, please go to the branch of this repository called "Front-Working3" or this "Master".
 
 ---------------------------------------------------------------------------------------------------
 # SubGraph: <br>
