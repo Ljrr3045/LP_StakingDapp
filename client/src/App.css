@@ -85,6 +85,22 @@
     opacity: 0.6;
 }
 
+.rectangule4 {
+    width: 250px; 
+    height: 20px;
+    margin: 5px;
+    color: black;
+    border-radius: 20px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: grey;
+    background-color: #ffffff;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.6;
+}
+
 .tittle{
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     align-items: center;

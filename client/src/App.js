@@ -189,7 +189,7 @@ export default function App() {
 	return (
 		<div className="father">
 			{currentAccount.length ? (
-				<div>Amount of LPToken liquidity: ${lpStakingBalance}</div>
+				<div className="rectangule4"> LPToken in Stake: {lpStakingBalance.toPrecision(7)}</div>
 			) : null}
 			<div className="connect-button">
 				{!currentAccount.length ? (
